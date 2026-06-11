@@ -1,0 +1,42 @@
+{
+    "expo":  {
+                 "name":  "An Gia Green Mobile",
+                 "slug":  "cskh-mobile",
+                 "version":  "1.0.0",
+                 "orientation":  "portrait",
+                 "icon":  "./src/assets/icon.png",
+                 "scheme":  "cskh",
+                 "userInterfaceStyle":  "light",
+                 "newArchEnabled":  true,
+                 "sdkVersion":  "54.0.0",
+                 "splash":  {
+                                "image":  "./src/assets/splash.png",
+                                "resizeMode":  "contain",
+                                "backgroundColor":  "#101915"
+                            },
+                 "ios":  {
+                             "supportsTablet":  false,
+                             "infoPlist":  {
+                                               "NSCameraUsageDescription":  "An Gia Green cần camera để quét Batch QR và truy xuất nguồn gốc sản phẩm."
+                                           }
+                         },
+                 "android":  {
+                                 "adaptiveIcon":  {
+                                                      "foregroundImage":  "./src/assets/adaptive-icon.png",
+                                                      "backgroundColor":  "#101915"
+                                                  },
+                                 "edgeToEdgeEnabled":  true,
+                                 "permissions":  [
+                                                     "CAMERA"
+                                                 ]
+                             },
+                 "web":  {
+                             "bundler":  "metro",
+                             "favicon":  "./src/assets/favicon.png"
+                         },
+                 "plugins":  [
+                                 "expo-router",
+                                 "expo-font"
+                             ]
+             }
+}
