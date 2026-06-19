@@ -1,15 +1,16 @@
 ﻿import { Image, StyleSheet, Text, View } from "react-native";
 import { router } from "expo-router";
 import { Bell, MessageCircle, Newspaper, Package, ScanQrCode } from "lucide-react-native";
-import { AppButton, FeatureTile, IconButton, MetricStrip, Screen, ShowcaseHero } from "@/components";
+import { FeatureTile, IconButton, MetricStrip, Screen, ShowcaseHero } from "@/components";
 import { appAssets } from "@/assets";
+import { activeMembershipTier, membershipStats } from "@/data/mock";
 import { colors, spacing, typography } from "@/theme";
 
 const shortcuts = [
-  { body: "Dược liệu, trà và sản phẩm sạch đã phân nhóm.", icon: Package, label: "Sản phẩm", meta: "Shop", route: "/(tabs)/products" },
-  { body: "Quét batch QR để xem lô, chứng nhận và lịch sử.", icon: ScanQrCode, label: "Truy xuất", meta: "QR", route: "/(tabs)/trace" },
-  { body: "Gửi câu hỏi chăm sóc sức khỏe và lưu hồ sơ tư vấn.", icon: MessageCircle, label: "Chat CSKH", meta: "24/7", route: "/(tabs)/chat" },
-  { body: "Cập nhật minh bạch nguồn gốc và quyền lợi hội viên.", icon: Newspaper, label: "Tin tức", meta: "News", route: "/news/traceability" }
+  { body: "Danh mục sản phẩm sạch.", icon: Package, label: "Sản phẩm", meta: "Shop", route: "/(tabs)/products" },
+  { body: "Kiểm tra lô và chứng nhận.", icon: ScanQrCode, label: "Truy xuất", meta: "QR", route: "/(tabs)/trace" },
+  { body: "Hỏi đáp và lưu tư vấn.", icon: MessageCircle, label: "Chat CSKH", meta: "24/7", route: "/(tabs)/chat" },
+  { body: "Tin mới từ website.", icon: Newspaper, label: "Tin tức", meta: "News", route: "/news/traceability" }
 ] as const;
 
 function navigateShortcut(route: (typeof shortcuts)[number]["route"]) {
@@ -26,26 +27,23 @@ export default function HomeScreen() {
     <Screen scroll style={styles.screenContent}>
       <View style={styles.header}>
         <Image source={appAssets.logo} style={styles.logo} />
-        <IconButton
-          accessibilityLabel="Mở thông báo"
-          size="sm"
-          style={styles.notificationButton}
-          onPress={() => router.push("/notifications")}
-        >
+        <IconButton accessibilityLabel="Mở thông báo" size="sm" style={styles.notificationButton} onPress={() => router.push("/notifications")}>
           <Bell color={colors.primaryDark} size={18} strokeWidth={2.4} />
         </IconButton>
       </View>
 
       <ShowcaseHero
-        eyebrow="An Gia Green CSKH"
+        eyebrow={activeMembershipTier.label}
+        palette={activeMembershipTier.palette}
         title="Chăm sóc khách hàng từ nguồn gốc đến tư vấn"
-        body="Theo dõi sản phẩm, nhận phản hồi và đồng bộ hồ sơ khách hàng trong một trải nghiệm gọn, rõ, sẵn sàng kết nối backend."
+        body="Xem tin tức, sản phẩm và hỗ trợ CSKH."
       >
         <MetricStrip
+          palette={activeMembershipTier.palette}
           items={[
-            { label: "điểm xanh", value: "1.250" },
-            { label: "lô xác thực", value: "08" },
-            { label: "phản hồi", value: "2h" }
+            { label: "điểm xanh", value: membershipStats.points },
+            { label: "lô xác thực", value: membershipStats.verifiedBatches },
+            { label: "phản hồi", value: membershipStats.responseTime }
           ]}
         />
       </ShowcaseHero>
@@ -53,20 +51,9 @@ export default function HomeScreen() {
       <View style={styles.grid}>
         {shortcuts.map(item => {
           const Icon = item.icon;
-          return (
-            <FeatureTile
-              key={item.label}
-              body={item.body}
-              icon={<Icon color={colors.primaryDark} size={18} strokeWidth={2.5} />}
-              meta={item.meta}
-              style={styles.shortcut}
-              title={item.label}
-              onPress={() => navigateShortcut(item.route)}
-            />
-          );
+          return <FeatureTile key={item.label} body={item.body} icon={<Icon color={colors.primaryDark} size={18} strokeWidth={2.5} />} meta={item.meta} style={styles.shortcut} title={item.label} onPress={() => navigateShortcut(item.route)} />;
         })}
       </View>
-      <AppButton onPress={() => router.push("/notifications")}>Xem thông báo</AppButton>
     </Screen>
   );
 }
@@ -80,3 +67,5 @@ const styles = StyleSheet.create({
   grid: { flexDirection: "row", flexWrap: "wrap", gap: spacing.md, marginBottom: spacing.xl, marginTop: spacing.md },
   shortcut: { width: "47%" }
 });
+
+
