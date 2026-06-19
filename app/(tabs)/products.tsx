@@ -1,10 +1,10 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+﻿import { DimensionValue, Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import { Leaf } from "lucide-react-native";
 import { Header } from "@/components";
-import { products } from "@/data/mock";
+import { activeMembershipTier, membershipStats, products } from "@/data/mock";
 import { colors, radius, shadows, spacing, typography } from "@/theme";
 
 export default function ProductsScreen() {
@@ -16,33 +16,29 @@ export default function ProductsScreen() {
 
       <View style={styles.content}>
         <LinearGradient
-          colors={[colors.secondaryDark, colors.primaryDark, colors.primary]}
+          colors={activeMembershipTier.palette.gradient}
           end={{ x: 1, y: 1 }}
           locations={[0, 0.52, 1]}
           start={{ x: 0, y: 0 }}
-          style={styles.memberCard}
+          style={[styles.memberCard, { borderColor: activeMembershipTier.palette.border }]}
         >
-          <View style={styles.memberGlow} />
-          <Text style={styles.memberBadge}>Herbal Care</Text>
-          <Text style={styles.points}>2.840 điểm an tâm</Text>
-          <Text style={styles.memberBody}>Tích điểm khi mua trà, dược liệu và thực phẩm sạch</Text>
+          <View style={[styles.memberGlow, { backgroundColor: activeMembershipTier.palette.glow }]} />
+          <LinearGradient colors={["transparent", activeMembershipTier.palette.shine, "transparent"]} end={{ x: 1, y: 0 }} start={{ x: 0, y: 0 }} style={styles.memberSheen} />
+          <Text style={[styles.memberBadge, { backgroundColor: activeMembershipTier.palette.badgeBackground }]}>{activeMembershipTier.label}</Text>
+          <Text style={styles.points}>{membershipStats.points} điểm an tâm</Text>
+          <Text style={styles.memberBody}>Đồng bộ điểm với CRM</Text>
           <View style={styles.progressTrack}>
-            <LinearGradient
-              colors={[colors.accent, colors.secondary, colors.primary]}
-              end={{ x: 1, y: 0 }}
-              start={{ x: 0, y: 0 }}
-              style={styles.progressFill}
-            />
+            <LinearGradient colors={activeMembershipTier.palette.gradient} end={{ x: 1, y: 0 }} start={{ x: 0, y: 0 }} style={[styles.progressFill, { width: activeMembershipTier.progress as DimensionValue }]} />
           </View>
         </LinearGradient>
 
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Dược liệu & trà</Text>
-          <Text style={styles.sectionCount}>3 sản phẩm</Text>
+          <Text style={styles.sectionCount}>{products.length} sản phẩm</Text>
         </View>
 
         {products.map(product => (
-          <Pressable key={product.id} style={styles.productCard} onPress={() => router.push(`/product/${product.id}`)}>
+          <Pressable key={product.id} style={styles.productCard} onPress={() => router.push("/product/" + product.id)}>
             <View style={styles.productThumb}>
               <View style={styles.productIconCircle}>
                 <Leaf color={colors.secondaryDark} size={24} strokeWidth={2.5} />
@@ -64,13 +60,14 @@ const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.background },
   headerWrap: { paddingHorizontal: spacing.xl },
   content: { paddingBottom: spacing.xxl, paddingHorizontal: spacing.xl, paddingTop: spacing.sm },
-  memberCard: { borderRadius: radius.lg, overflow: "hidden", padding: spacing.lg, ...shadows.card },
-  memberGlow: { backgroundColor: "rgba(255,237,3,0.2)", borderRadius: radius.pill, height: 124, position: "absolute", right: -38, top: -52, width: 124 },
-  memberBadge: { ...typography.caption, alignSelf: "flex-start", backgroundColor: "rgba(255,255,255,0.18)", borderRadius: radius.pill, color: colors.white, overflow: "hidden", paddingHorizontal: spacing.sm, paddingVertical: 5 },
+  memberCard: { borderRadius: radius.lg, borderWidth: 1, overflow: "hidden", padding: spacing.lg, ...shadows.card },
+  memberGlow: { borderRadius: radius.pill, height: 124, position: "absolute", right: -38, top: -52, width: 124 },
+  memberSheen: { height: 176, left: -58, opacity: 0.82, position: "absolute", top: -28, transform: [{ rotate: "-18deg" }], width: 94 },
+  memberBadge: { ...typography.caption, alignSelf: "flex-start", borderRadius: radius.pill, color: colors.white, overflow: "hidden", paddingHorizontal: spacing.sm, paddingVertical: 5 },
   points: { ...typography.h2, color: colors.white, marginTop: spacing.md },
   memberBody: { ...typography.body, color: "rgba(255,255,255,0.9)", marginTop: spacing.xs },
   progressTrack: { backgroundColor: "rgba(255,255,255,0.25)", borderRadius: radius.pill, height: 6, marginTop: spacing.md, overflow: "hidden" },
-  progressFill: { borderRadius: radius.pill, height: 6, width: "76%" },
+  progressFill: { borderRadius: radius.pill, height: 6 },
   sectionHeader: { alignItems: "center", flexDirection: "row", justifyContent: "space-between", marginBottom: spacing.lg, marginTop: spacing.lg },
   sectionTitle: { ...typography.h2, color: colors.text, fontSize: 20 },
   sectionCount: { ...typography.caption, color: colors.primary, fontWeight: "800" },
@@ -82,3 +79,4 @@ const styles = StyleSheet.create({
   productName: { ...typography.h3, color: colors.text, marginTop: spacing.sm },
   productDescription: { ...typography.caption, color: colors.textMuted, marginTop: spacing.xs }
 });
+
