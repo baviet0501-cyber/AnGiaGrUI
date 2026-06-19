@@ -12,7 +12,7 @@ export default function WelcomeScreen() {
       </View>
       <View style={styles.actions}>
         <AppButton onPress={() => router.push("/(auth)/login")}>Bắt đầu</AppButton>
-        <AppButton variant="ghost" onPress={() => router.push("/(auth)/login")}>Đã có tài khoản? Đăng nhập</AppButton>
+        <AppButton variant="ghost" onPress={() => router.push("/(auth)/register")}>Chưa có tài khoản? Đăng ký</AppButton>
       </View>
     </Screen>
   );
@@ -23,3 +23,4 @@ const styles = StyleSheet.create({
   logo: { height: 112, resizeMode: "contain", width: 190 },
   actions: { gap: spacing.md }
 });
+
