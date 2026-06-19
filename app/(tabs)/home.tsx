@@ -25,6 +25,7 @@ export default function HomeScreen() {
   return (
     <Screen scroll style={styles.screenContent}>
       <View style={styles.header}>
+        <View style={styles.headerSide} />
         <Text style={styles.headerTitle}>Trang chủ</Text>
         <IconButton accessibilityLabel="Mở thông báo" size="sm" style={styles.notificationButton} onPress={() => router.push("/notifications")}>
           <Bell color={colors.primaryDark} size={18} strokeWidth={2.4} />
@@ -60,12 +61,10 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   screenContent: { paddingTop: 0 },
   header: { alignItems: "center", flexDirection: "row", justifyContent: "space-between", marginBottom: spacing.sm, minHeight: 44 },
-  headerTitle: { ...typography.h2, color: colors.text, fontSize: 22 },
+  headerSide: { width: 34 },
+  headerTitle: { ...typography.h3, color: colors.text, flex: 1, textAlign: "center" },
   notificationButton: { backgroundColor: colors.accentSoft },
   sectionTitle: { ...typography.h2, color: colors.text, fontSize: 20 },
   grid: { flexDirection: "row", flexWrap: "wrap", gap: spacing.md, marginBottom: spacing.xl, marginTop: spacing.md },
   shortcut: { width: "47%" }
 });
-
-
-
