@@ -1,5 +1,6 @@
 ﻿import { Platform } from "react-native";
 import * as Notifications from "expo-notifications";
+import { addStoredNotification } from "./notificationStorage";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -58,22 +59,30 @@ export async function pushChatbotPreviewNotification() {
 }
 
 export async function pushRecentProductReminder(productId: string, productName: string) {
+  const route = "/product/" + productId;
+  const body = "Bạn vừa xem " + productName + ". Mở lại để xem giá, chứng nhận và đặt mua trên website.";
+  await addStoredNotification({
+    body,
+    route,
+    title: "Sản phẩm bạn quan tâm",
+    type: "product-reminder"
+  });
+
   const hasPermission = await ensureNotificationPermission();
   if (!hasPermission) {
-    return { ok: false, reason: "permission-denied" as const };
+    return { nativeScheduled: false as const, ok: true as const };
   }
 
   await ensureAndroidChannel("product-reminders", "Nhắc xem sản phẩm");
   await Notifications.scheduleNotificationAsync({
     content: {
-      body: "Bạn vừa xem " + productName + ". Mở lại để xem giá, chứng nhận và đặt mua trên website.",
-      data: { productId, route: "/product/" + productId, source: "recent-product" },
+      body,
+      data: { productId, route, source: "recent-product" },
       sound: "default",
       title: "Sản phẩm bạn quan tâm"
     },
     trigger: { seconds: 5, type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL }
   });
 
-  return { ok: true as const };
+  return { nativeScheduled: true as const, ok: true as const };
 }
-

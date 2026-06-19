@@ -1,10 +1,11 @@
-﻿import { Tabs } from "expo-router";
+﻿import { Redirect, Tabs } from "expo-router";
 import { Home, MessageCircle, Package, ScanQrCode, UserRound } from "lucide-react-native";
-import { Text, View } from "react-native";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { useAuth } from "@/features/auth";
 import { colors } from "@/theme";
 
 const labels: Record<string, string> = {
-  home: "Nhà",
+  home: "Trang chủ",
   products: "Sản phẩm",
   trace: "Truy xuất",
   chat: "Chat",
@@ -20,6 +21,20 @@ const tabIcons = {
 };
 
 export default function TabsLayout() {
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) {
+    return (
+      <View style={styles.loadingScreen}>
+        <ActivityIndicator color={colors.primary} />
+      </View>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <Redirect href="/(auth)/login" />;
+  }
+
   return (
     <Tabs screenOptions={({ route }) => ({
       headerShown: false,
@@ -91,3 +106,7 @@ export default function TabsLayout() {
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  loadingScreen: { alignItems: "center", backgroundColor: colors.background, flex: 1, justifyContent: "center" }
+});

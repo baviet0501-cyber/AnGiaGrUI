@@ -1,15 +1,5 @@
 ﻿import type { ShowcasePalette } from "@/components";
 
-export type Product = {
-  id: string;
-  name: string;
-  description: string;
-  price: string;
-  purchaseUrl: string;
-  tag: string;
-};
-export type NewsItem = { id: string; title: string; summary: string; date: string };
-export type NotificationItem = { id: string; title: string; body: string; route: string };
 export type Consultation = { id: string; title: string; status: string; updatedAt: string };
 export type MembershipTierId = "member" | "silver" | "gold" | "platinum" | "diamond";
 export type MembershipTier = {
@@ -121,42 +111,7 @@ export const membershipStats: MembershipStats = {
 
 export const activeMembershipTier = membershipTiers.find(tier => tier.id === membershipStats.tier) ?? membershipTiers[0];
 
-export const products: Product[] = [
-  {
-    id: "tra-giao-co-lam",
-    name: "Trà giảo cổ lam",
-    description: "Dược liệu sạch • phơi sấy chuẩn • không phụ gia",
-    price: "119.000đ",
-    purchaseUrl: "https://angiagreen.example/products/tra-giao-co-lam",
-    tag: "VietGAP"
-  },
-  {
-    id: "cao-ca-gai-leo",
-    name: "Cao cà gai leo",
-    description: "Dược liệu sạch • phơi sấy chuẩn • không phụ gia",
-    price: "159.000đ",
-    purchaseUrl: "https://angiagreen.example/products/cao-ca-gai-leo",
-    tag: "Nam dược"
-  },
-  {
-    id: "bot-sam-bo-chinh",
-    name: "Bột sâm bố chính",
-    description: "Dược liệu sạch • phơi sấy chuẩn • không phụ gia",
-    price: "189.000đ",
-    purchaseUrl: "https://angiagreen.example/products/bot-sam-bo-chinh",
-    tag: "Mới"
-  }
-];
 
-export const news: NewsItem[] = [
-  { id: "traceability", title: "Minh bạch nguồn gốc sản phẩm", summary: "Cách kiểm tra lô hàng và chứng nhận chất lượng.", date: "08/06/2026" },
-  { id: "wellness", title: "Chương trình hội viên An Gia Green", summary: "Tích điểm, nhận tư vấn và ưu đãi cá nhân hóa.", date: "06/06/2026" }
-];
-
-export const notifications: NotificationItem[] = [
-  { id: "batch", title: "Lô hàng đã xác thực", body: "Sản phẩm bạn quan tâm có chứng nhận mới.", route: "/(tabs)/trace" },
-  { id: "consult", title: "Tư vấn viên đã phản hồi", body: "Xem cập nhật trong hồ sơ tư vấn.", route: "/consultation/skin-care" }
-];
 
 export const consultations: Consultation[] = [
   { id: "skin-care", title: "Tư vấn chăm sóc sức khỏe", status: "Đang theo dõi", updatedAt: "Hôm nay" },
