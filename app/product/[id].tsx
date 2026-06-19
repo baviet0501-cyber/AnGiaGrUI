@@ -10,14 +10,14 @@ export default function ProductDetailScreen() {
 
   return (
     <Screen scroll>
-      <Header title={product.name} subtitle="Chi tiết sản phẩm" showBack />
+      <Header title={product.name} subtitle="Chi tiết sản phẩm" showBack showNotification />
       <Card style={styles.card}>
         <Text style={styles.price}>{product.price}</Text>
         <Text style={styles.body}>{product.description}</Text>
         <Text style={styles.body}>Thiết kế sẵn chỗ hiển thị chứng nhận, ảnh sản phẩm và dữ liệu truy xuất từ Figma/API.</Text>
       </Card>
       <AppButton onPress={() => router.push("/notifications")}>Đặt mua / nhận tư vấn</AppButton>
-      <AppButton variant="ghost" onPress={() => router.push("/(tabs)/chat")}>Hỏi chuyên gia</AppButton>
+      <AppButton variant="ghost" onPress={() => router.replace("/(tabs)/chat")}>Hỏi chuyên gia</AppButton>
     </Screen>
   );
 }

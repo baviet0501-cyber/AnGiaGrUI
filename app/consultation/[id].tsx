@@ -10,12 +10,12 @@ export default function ConsultationDetailScreen() {
 
   return (
     <Screen scroll>
-      <Header title={consultation.title} subtitle="Chi tiết tư vấn" showBack />
+      <Header title={consultation.title} subtitle="Chi tiết tư vấn" showBack showNotification />
       <Card style={styles.card}>
         <Text style={styles.status}>{consultation.status}</Text>
         <Text style={styles.body}>Lịch sử tương tác, ghi chú tư vấn viên và ticket CRM sẽ hiển thị tại đây.</Text>
       </Card>
-      <AppButton onPress={() => router.push("/(tabs)/chat")}>Tiếp tục chat CSKH</AppButton>
+      <AppButton onPress={() => router.replace("/(tabs)/chat")}>Tiếp tục chat CSKH</AppButton>
     </Screen>
   );
 }

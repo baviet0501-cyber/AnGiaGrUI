@@ -15,7 +15,7 @@ export const news: NewsItem[] = [
 ];
 
 export const notifications: NotificationItem[] = [
-  { id: "batch", title: "Lô hàng đã xác thực", body: "Sản phẩm bạn quan tâm có chứng nhận mới.", route: "/trace" },
+  { id: "batch", title: "Lô hàng đã xác thực", body: "Sản phẩm bạn quan tâm có chứng nhận mới.", route: "/(tabs)/trace" },
   { id: "consult", title: "Tư vấn viên đã phản hồi", body: "Xem cập nhật trong hồ sơ tư vấn.", route: "/consultation/skin-care" }
 ];
 

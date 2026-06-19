@@ -7,8 +7,8 @@ import { colors, radius, spacing, typography } from "@/theme";
 
 export default function TraceScreen() {
   return (
-    <Screen scroll>
-      <Header title="Truy xuất nguồn gốc" subtitle="Quét mã hoặc xem lô hàng đã lưu" />
+    <Screen scroll style={styles.screenContent}>
+      <Header title="Truy xuất" showNotification compact />
       <Pressable style={styles.scanCard} onPress={() => router.push("/scanner")}>
         <View style={styles.scanIconWrap}>
           <ScanQrCode color={colors.primary} size={28} strokeWidth={2.5} />
@@ -25,12 +25,13 @@ export default function TraceScreen() {
           <Text style={styles.body}>{item.status} · {item.updatedAt}</Text>
         </Card>
       ))}
-      <AppButton onPress={() => router.push("/(tabs)/chat")}>Hỏi chuyên gia</AppButton>
+      <AppButton onPress={() => router.replace("/(tabs)/chat")}>Hỏi chuyên gia</AppButton>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
+  screenContent: { paddingTop: 0 },
   scanCard: { alignItems: "center", backgroundColor: colors.primarySoft, borderRadius: radius.lg, flexDirection: "row", gap: spacing.md, marginBottom: spacing.lg, padding: spacing.lg },
   scanIconWrap: { alignItems: "center", backgroundColor: colors.white, borderRadius: radius.pill, height: 56, justifyContent: "center", width: 56 },
   scanContent: { flex: 1 },

@@ -5,7 +5,7 @@ import { colors, spacing, typography } from "@/theme";
 export default function MembershipScreen() {
   return (
     <Screen scroll>
-      <Header title="An Gia Green Membership" subtitle="Quyền lợi hội viên và tích điểm" showBack />
+      <Header title="An Gia Green Membership" subtitle="Quyền lợi hội viên và tích điểm" showBack showNotification />
       <Card style={styles.card}>
         <Text style={styles.title}>Hạng Green Care</Text>
         <Text style={styles.body}>Ưu đãi cá nhân hóa, tư vấn định kỳ và ưu tiên phản hồi từ CSKH.</Text>

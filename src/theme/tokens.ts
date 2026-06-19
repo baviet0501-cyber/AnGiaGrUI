@@ -1,16 +1,20 @@
-﻿export const colors = {
-  primary: "#0F8F5F",
-  primaryDark: "#076B46",
-  primarySoft: "#E7F6EF",
-  secondary: "#FFB84D",
-  background: "#F6FBF8",
+export const colors = {
+  primary: "#00B1D5",
+  primaryDark: "#055E69",
+  primarySoft: "#E5FAFD",
+  secondary: "#77BA00",
+  secondaryDark: "#3F7200",
+  secondarySoft: "#EEF8D7",
+  accent: "#FFED03",
+  accentSoft: "#FFF8C5",
+  background: "#F4FBF9",
   surface: "#FFFFFF",
-  surfaceMuted: "#F0F6F2",
-  text: "#17322A",
-  textMuted: "#6B7D76",
-  border: "#DCE8E2",
+  surfaceMuted: "#EAF7F3",
+  text: "#073B3F",
+  textMuted: "#5F7679",
+  border: "#CFE8E4",
   danger: "#D94F4F",
-  success: "#28A36A",
+  success: "#65A500",
   white: "#FFFFFF"
 } as const;
 
@@ -42,10 +46,10 @@ export const typography = {
 
 export const shadows = {
   card: {
-    shadowColor: "#0B3D2C",
-    shadowOpacity: 0.08,
-    shadowRadius: 16,
-    shadowOffset: { width: 0, height: 8 },
-    elevation: 3
+    shadowColor: "#055E69",
+    shadowOpacity: 0.1,
+    shadowRadius: 18,
+    shadowOffset: { width: 0, height: 10 },
+    elevation: 4
   }
 } as const;

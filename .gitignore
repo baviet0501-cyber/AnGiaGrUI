@@ -1,5 +1,6 @@
 node_modules/
 .expo/
+.codegraph/
 dist/
 .expo-shared/
 npm-debug.log*

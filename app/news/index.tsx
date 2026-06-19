@@ -7,7 +7,7 @@ import { colors, spacing, typography } from "@/theme";
 export default function NewsListScreen() {
   return (
     <Screen scroll>
-      <Header title="Tin tức" subtitle="Bài viết và cập nhật chăm sóc khách hàng" showBack />
+      <Header title="Tin tức" subtitle="Bài viết và cập nhật chăm sóc khách hàng" showBack showNotification />
       {news.map(item => (
         <Card key={item.id} style={styles.card}>
           <Text style={styles.date}>{item.date}</Text>

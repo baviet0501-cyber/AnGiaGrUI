@@ -10,7 +10,12 @@ export default function NotificationsScreen() {
       <Header title="Thông báo" subtitle="Cập nhật từ sản phẩm, tư vấn và CRM" showBack />
       {notifications.map(item => (
         <Card key={item.id} style={styles.card}>
-          <Text style={styles.title} onPress={() => router.push(item.route)}>{item.title}</Text>
+          <Text
+            style={styles.title}
+            onPress={() => (item.route.startsWith("/(tabs)") ? router.replace(item.route) : router.push(item.route))}
+          >
+            {item.title}
+          </Text>
           <Text style={styles.body}>{item.body}</Text>
         </Card>
       ))}

@@ -27,7 +27,8 @@
                                                   },
                                  "edgeToEdgeEnabled":  true,
                                  "permissions":  [
-                                                     "CAMERA"
+                                                     "CAMERA",
+                                                     "POST_NOTIFICATIONS"
                                                  ]
                              },
                  "web":  {
@@ -36,7 +37,8 @@
                          },
                  "plugins":  [
                                  "expo-router",
-                                 "expo-font"
+                                 "expo-font",
+                                 "expo-notifications"
                              ]
              }
 }

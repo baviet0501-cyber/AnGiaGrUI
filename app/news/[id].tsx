@@ -10,7 +10,7 @@ export default function NewsDetailScreen() {
 
   return (
     <Screen scroll>
-      <Header title="Tin tức" subtitle={item.date} showBack />
+      <Header title="Tin tức" subtitle={item.date} showBack showNotification />
       <Card style={styles.card}>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.body}>{item.summary}</Text>
