@@ -1,8 +1,7 @@
-﻿import { Image, StyleSheet, Text, View } from "react-native";
+﻿import { StyleSheet, Text, View } from "react-native";
 import { router } from "expo-router";
 import { Bell, MessageCircle, Newspaper, Package, ScanQrCode } from "lucide-react-native";
 import { FeatureTile, IconButton, MetricStrip, Screen, ShowcaseHero } from "@/components";
-import { appAssets } from "@/assets";
 import { activeMembershipTier, membershipStats } from "@/data/mock";
 import { colors, spacing, typography } from "@/theme";
 
@@ -26,7 +25,7 @@ export default function HomeScreen() {
   return (
     <Screen scroll style={styles.screenContent}>
       <View style={styles.header}>
-        <Image source={appAssets.logo} style={styles.logo} />
+        <Text style={styles.headerTitle}>Trang chủ</Text>
         <IconButton accessibilityLabel="Mở thông báo" size="sm" style={styles.notificationButton} onPress={() => router.push("/notifications")}>
           <Bell color={colors.primaryDark} size={18} strokeWidth={2.4} />
         </IconButton>
@@ -61,11 +60,12 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   screenContent: { paddingTop: 0 },
   header: { alignItems: "center", flexDirection: "row", justifyContent: "space-between", marginBottom: spacing.sm, minHeight: 44 },
-  logo: { height: 36, resizeMode: "contain", width: 86 },
+  headerTitle: { ...typography.h2, color: colors.text, fontSize: 22 },
   notificationButton: { backgroundColor: colors.accentSoft },
   sectionTitle: { ...typography.h2, color: colors.text, fontSize: 20 },
   grid: { flexDirection: "row", flexWrap: "wrap", gap: spacing.md, marginBottom: spacing.xl, marginTop: spacing.md },
   shortcut: { width: "47%" }
 });
+
 
 

@@ -4,7 +4,7 @@ import { Text, View } from "react-native";
 import { colors } from "@/theme";
 
 const labels: Record<string, string> = {
-  home: "Nhà",
+  home: "Trang Chủ",
   products: "Sản phẩm",
   trace: "Truy xuất",
   chat: "Chat",
