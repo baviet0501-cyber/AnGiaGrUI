@@ -1,7 +1,4 @@
-﻿import { Platform } from "react-native";
-import { WEB_ARTICLE_SNAPSHOT, WEB_PRODUCT_SNAPSHOT } from "./webFallback";
-
-const ANGIA_API_BASE_URL = "https://angiagreen-backend.vercel.app/api";
+﻿const ANGIA_API_BASE_URL = "https://angiagreen-backend.vercel.app/api";
 const ANGIA_WEB_BASE_URL = "https://angiagreen.vercel.app";
 
 type LocalizedText = Partial<Record<"vi" | "en" | "zh", string>>;
@@ -206,60 +203,22 @@ export function fallbackProductItems(): RemoteProduct[] {
 export function fallbackNewsItems(): RemoteNewsItem[] {
   return [];
 }
-function canUseWebSnapshot() {
-  return Platform.OS === "web";
-}
-
 export async function fetchProducts() {
-  try {
-    const payload = await requestJson<ListResponse<AngiaProduct>>("/products");
-    return normalizeList(payload).map(toProduct);
-  } catch (error) {
-    if (canUseWebSnapshot()) {
-      return WEB_PRODUCT_SNAPSHOT.map(toProduct);
-    }
-
-    throw error;
-  }
+  const payload = await requestJson<ListResponse<AngiaProduct>>("/products");
+  return normalizeList(payload).map(toProduct);
 }
 
 export async function fetchProductBySlug(slug: string) {
-  try {
-    const payload = await requestJson<AngiaProduct>(`/products/${encodeURIComponent(slug)}`);
-    return toProduct(payload);
-  } catch (error) {
-    const snapshotItem = WEB_PRODUCT_SNAPSHOT.find(item => item.slug === slug || item.id === slug);
-    if (canUseWebSnapshot() && snapshotItem) {
-      return toProduct(snapshotItem);
-    }
-
-    throw error;
-  }
+  const payload = await requestJson<AngiaProduct>(`/products/${encodeURIComponent(slug)}`);
+  return toProduct(payload);
 }
 
 export async function fetchNews() {
-  try {
-    const payload = await requestJson<ListResponse<AngiaArticle>>("/articles");
-    return normalizeList(payload).map(toNewsItem);
-  } catch (error) {
-    if (canUseWebSnapshot()) {
-      return WEB_ARTICLE_SNAPSHOT.map(toNewsItem);
-    }
-
-    throw error;
-  }
+  const payload = await requestJson<ListResponse<AngiaArticle>>("/articles");
+  return normalizeList(payload).map(toNewsItem);
 }
 
 export async function fetchNewsBySlug(slug: string) {
-  try {
-    const payload = await requestJson<AngiaArticle>(`/articles/${encodeURIComponent(slug)}`);
-    return toNewsItem(payload);
-  } catch (error) {
-    const snapshotItem = WEB_ARTICLE_SNAPSHOT.find(item => item.slug === slug || item.id === slug);
-    if (canUseWebSnapshot() && snapshotItem) {
-      return toNewsItem(snapshotItem);
-    }
-
-    throw error;
-  }
+  const payload = await requestJson<AngiaArticle>(`/articles/${encodeURIComponent(slug)}`);
+  return toNewsItem(payload);
 }
