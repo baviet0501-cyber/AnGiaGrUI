@@ -1,6 +1,7 @@
-﻿import { Redirect, Tabs } from "expo-router";
+import { Redirect, Tabs } from "expo-router";
 import { Home, MessageCircle, Package, ScanQrCode, UserRound } from "lucide-react-native";
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { useEffect, useRef } from "react";
+import { ActivityIndicator, Animated, Easing, StyleSheet, View } from "react-native";
 import { useAuth } from "@/features/auth";
 import { colors } from "@/theme";
 
@@ -20,6 +21,125 @@ const tabIcons = {
   profile: UserRound
 };
 
+function AnimatedTabIcon({
+  color,
+  focused,
+  routeName
+}: {
+  color: string;
+  focused: boolean;
+  routeName: keyof typeof tabIcons;
+}) {
+  const Icon = tabIcons[routeName];
+  const progress = useRef(new Animated.Value(focused ? 1 : 0)).current;
+
+  useEffect(() => {
+    Animated.timing(progress, {
+      duration: 360,
+      easing: Easing.bezier(0.22, 1, 0.36, 1),
+      toValue: focused ? 1 : 0,
+      useNativeDriver: false
+    }).start();
+  }, [focused, progress]);
+
+  const bubbleSize = progress.interpolate({
+    inputRange: [0, 1],
+    outputRange: [34, 40]
+  });
+
+  const bubbleRadius = progress.interpolate({
+    inputRange: [0, 1],
+    outputRange: [17, 20]
+  });
+
+  const translateY = progress.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, -1.5]
+  });
+
+  const bubbleScale = progress.interpolate({
+    inputRange: [0, 0.7, 1],
+    outputRange: [1, 1.04, 1.01]
+  });
+
+  const iconScale = progress.interpolate({
+    inputRange: [0, 1],
+    outputRange: [1, 1.03]
+  });
+
+  const backgroundColor = progress.interpolate({
+    inputRange: [0, 1],
+    outputRange: [colors.surfaceMuted, colors.primarySoft]
+  });
+
+  return (
+    <Animated.View
+      style={[
+        styles.tabIconBubble,
+        {
+          backgroundColor,
+          borderRadius: bubbleRadius,
+          height: bubbleSize,
+          transform: [{ translateY }, { scale: bubbleScale }],
+          width: bubbleSize
+        }
+      ]}
+    >
+      <Animated.View style={{ transform: [{ scale: iconScale }] }}>
+        <Icon color={color} size={focused ? 18 : 16} strokeWidth={focused ? 2.5 : 2.1} />
+      </Animated.View>
+    </Animated.View>
+  );
+}
+
+function AnimatedTabLabel({
+  color,
+  focused,
+  label
+}: {
+  color: string;
+  focused: boolean;
+  label: string;
+}) {
+  const progress = useRef(new Animated.Value(focused ? 1 : 0)).current;
+
+  useEffect(() => {
+    Animated.timing(progress, {
+      duration: 320,
+      easing: Easing.bezier(0.22, 1, 0.36, 1),
+      toValue: focused ? 1 : 0,
+      useNativeDriver: true
+    }).start();
+  }, [focused, progress]);
+
+  const opacity = progress.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0.82, 1]
+  });
+
+  const translateY = progress.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, -1]
+  });
+
+  return (
+    <Animated.Text
+      numberOfLines={1}
+      style={[
+        styles.tabLabel,
+        {
+          color,
+          fontWeight: focused ? "800" : "500",
+          opacity,
+          transform: [{ translateY }]
+        }
+      ]}
+    >
+      {label}
+    </Animated.Text>
+  );
+}
+
 export default function TabsLayout() {
   const { isAuthenticated, isLoading } = useAuth();
 
@@ -36,68 +156,53 @@ export default function TabsLayout() {
   }
 
   return (
-    <Tabs screenOptions={({ route }) => ({
-      headerShown: false,
-      freezeOnBlur: true,
-      lazy: true,
-      popToTopOnBlur: true,
-      unmountOnBlur: true,
-      tabBarActiveTintColor: colors.primaryDark,
-      tabBarInactiveTintColor: colors.textMuted,
-      tabBarStyle: {
-        backgroundColor: colors.white,
-        borderTopColor: "transparent",
-        elevation: 8,
-        height: 76,
-        paddingBottom: 11,
-        paddingHorizontal: 18,
-        paddingTop: 11,
-        shadowColor: colors.primaryDark,
-        shadowOffset: { width: 0, height: -4 },
-        shadowOpacity: 0.08,
-        shadowRadius: 16
-      },
-      tabBarItemStyle: {
-        height: 54,
-        justifyContent: "center"
-      },
-      tabBarIconStyle: {
-        height: 26,
-        marginBottom: 0,
-        marginTop: 0
-      },
-      tabBarIcon: ({ color, focused }) => {
-        const Icon = tabIcons[route.name as keyof typeof tabIcons];
-        return (
-          <View
-            style={{
-              alignItems: "center",
-              backgroundColor: focused ? colors.primarySoft : colors.surfaceMuted,
-              borderRadius: 13,
-              height: 26,
-              justifyContent: "center",
-              width: 26
-            }}
-          >
-            <Icon color={color} size={15} strokeWidth={focused ? 2.8 : 2.2} />
-          </View>
-        );
-      },
-      tabBarLabel: ({ color, focused }) => (
-        <Text
-          style={{
-            color,
-            fontSize: 10,
-            fontWeight: focused ? "800" : "500",
-            lineHeight: 15,
-            marginTop: 4,
-            textAlign: "center"
-          }}
-        >
-          {labels[route.name]}
-        </Text>
-      )
-    })}>
+    <Tabs
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        freezeOnBlur: true,
+        lazy: true,
+        popToTopOnBlur: true,
+        unmountOnBlur: true,
+        tabBarActiveTintColor: colors.primaryDark,
+        tabBarInactiveTintColor: colors.textMuted,
+        tabBarStyle: {
+          backgroundColor: colors.white,
+          borderTopWidth: 0,
+          bottom: 0,
+          elevation: 12,
+          height: 82,
+          left: 0,
+          paddingBottom: 10,
+          paddingHorizontal: 10,
+          paddingTop: 8,
+          position: "absolute",
+          right: 0,
+          shadowColor: colors.primaryDark,
+          shadowOffset: { width: 0, height: 10 },
+          shadowOpacity: 0.12,
+          shadowRadius: 24
+        },
+        tabBarItemStyle: {
+          borderRadius: 999,
+          height: 62,
+          justifyContent: "center",
+          marginHorizontal: 0,
+          paddingHorizontal: 2,
+          paddingTop: 4
+        },
+        tabBarIconStyle: {
+          height: 34,
+          marginBottom: 0,
+          marginTop: 0
+        },
+        tabBarIcon: ({ color, focused }) => (
+          <AnimatedTabIcon color={color} focused={focused} routeName={route.name as keyof typeof tabIcons} />
+        ),
+        tabBarLabel: ({ color, focused }) => (
+          <AnimatedTabLabel color={color} focused={focused} label={labels[route.name]} />
+        )
+      })}
+    >
       <Tabs.Screen name="home" options={{ title: labels.home }} />
       <Tabs.Screen name="products" options={{ title: labels.products }} />
       <Tabs.Screen name="trace" options={{ title: labels.trace }} />
@@ -108,5 +213,21 @@ export default function TabsLayout() {
 }
 
 const styles = StyleSheet.create({
-  loadingScreen: { alignItems: "center", backgroundColor: colors.background, flex: 1, justifyContent: "center" }
+  loadingScreen: {
+    alignItems: "center",
+    backgroundColor: colors.background,
+    flex: 1,
+    justifyContent: "center"
+  },
+  tabIconBubble: {
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  tabLabel: {
+    fontSize: 9,
+    lineHeight: 12,
+    marginTop: 2,
+    paddingHorizontal: 1,
+    textAlign: "center"
+  }
 });
