@@ -42,7 +42,7 @@ const defaultPalette: ShowcasePalette = {
   glow: "rgba(255,237,3,0.22)",
   metricBackground: "rgba(229,250,253,0.16)",
   shine: "rgba(255,255,255,0.18)",
-  wash: "rgba(0,177,213,0.18)"
+  wash: "rgba(119,186,0,0.18)"
 };
 
 export function ShowcaseHero({ eyebrow, title, body, children, palette = defaultPalette, style }: ShowcaseHeroProps) {
