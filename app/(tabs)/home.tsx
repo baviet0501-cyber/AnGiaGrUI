@@ -1,14 +1,16 @@
 ﻿import { useCallback, useEffect, useState } from "react";
-import { ActivityIndicator, Image, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, DimensionValue, Image, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { router } from "expo-router";
 import { Bell, Newspaper } from "lucide-react-native";
-import { IconButton, MetricStrip, ShowcaseHero } from "@/components";
+import { IconButton, MemberCard } from "@/components";
 import { activeMembershipTier, membershipStats } from "@/data/mock";
 import { fetchNews, RemoteNewsItem } from "@/features/content";
 import { colors, radius, spacing, typography } from "@/theme";
 
 export default function HomeScreen() {
+  const tabBarHeight = useBottomTabBarHeight();
   const [newsItems, setNewsItems] = useState<RemoteNewsItem[]>([]);
   const [isNewsLoading, setIsNewsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -41,7 +43,7 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.screen}>
       <ScrollView
-        contentContainerStyle={styles.screenContent}
+        contentContainerStyle={[styles.screenContent, { paddingBottom: spacing.xxl + tabBarHeight }]}
         refreshControl={<RefreshControl colors={[colors.primary]} refreshing={isRefreshing} tintColor={colors.primary} onRefresh={() => loadNews(true)} />}
         showsVerticalScrollIndicator={false}
       >
@@ -53,21 +55,14 @@ export default function HomeScreen() {
           </IconButton>
         </View>
 
-        <ShowcaseHero
-          eyebrow={activeMembershipTier.label}
+        <MemberCard
+          badge={activeMembershipTier.label}
+          body="Đồng bộ điểm với CRM"
           palette={activeMembershipTier.palette}
-          title="Chăm sóc khách hàng từ nguồn gốc đến tư vấn"
-          body="Xem tin tức, sản phẩm và hỗ trợ CSKH."
-        >
-          <MetricStrip
-            palette={activeMembershipTier.palette}
-            items={[
-              { label: "điểm xanh", value: membershipStats.points },
-              { label: "lô xác thực", value: membershipStats.verifiedBatches },
-              { label: "phản hồi", value: membershipStats.responseTime }
-            ]}
-          />
-        </ShowcaseHero>
+          points={membershipStats.points}
+          progress={activeMembershipTier.progress as DimensionValue}
+          style={styles.memberCard}
+        />
 
         <View style={styles.newsHeader}>
           <Text style={styles.sectionTitle}>Tin mới</Text>
@@ -92,11 +87,12 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.background },
-  screenContent: { flexGrow: 1, padding: spacing.xl, paddingTop: 0, paddingBottom: spacing.xxl },
+  screenContent: { flexGrow: 1, paddingHorizontal: spacing.lg, paddingVertical: spacing.xl, paddingTop: 0 },
   header: { alignItems: "center", flexDirection: "row", justifyContent: "space-between", marginBottom: spacing.sm, minHeight: 44 },
   headerSide: { width: 34 },
   headerTitle: { ...typography.h3, color: colors.text, flex: 1, textAlign: "center" },
   notificationButton: { backgroundColor: colors.accentSoft },
+  memberCard: { marginBottom: spacing.lg },
   sectionTitle: { ...typography.h2, color: colors.text, fontSize: 20 },
   newsHeader: { alignItems: "center", flexDirection: "row", justifyContent: "space-between", marginTop: spacing.xl },
   newsCard: { backgroundColor: colors.surface, borderColor: colors.border, borderRadius: radius.lg, borderWidth: 1, marginTop: spacing.md, overflow: "hidden" },

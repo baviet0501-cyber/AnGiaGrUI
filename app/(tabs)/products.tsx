@@ -1,15 +1,16 @@
 ﻿import { useCallback, useEffect, useState } from "react";
 import { ActivityIndicator, DimensionValue, Image, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { router } from "expo-router";
-import { LinearGradient } from "expo-linear-gradient";
 import { Leaf } from "lucide-react-native";
-import { Header } from "@/components";
+import { Header, MemberCard } from "@/components";
 import { activeMembershipTier, membershipStats } from "@/data/mock";
 import { fetchProducts, RemoteProduct } from "@/features/content";
-import { colors, radius, shadows, spacing, typography } from "@/theme";
+import { colors, radius, spacing, typography } from "@/theme";
 
 export default function ProductsScreen() {
+  const tabBarHeight = useBottomTabBarHeight();
   const [products, setProducts] = useState<RemoteProduct[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -46,26 +47,17 @@ export default function ProductsScreen() {
       </View>
 
       <ScrollView
-        contentContainerStyle={styles.content}
+        contentContainerStyle={[styles.content, { paddingBottom: spacing.xxl + tabBarHeight }]}
         refreshControl={<RefreshControl colors={[colors.primary]} refreshing={isRefreshing} tintColor={colors.primary} onRefresh={() => loadProducts(true)} />}
         showsVerticalScrollIndicator={false}
       >
-        <LinearGradient
-          colors={activeMembershipTier.palette.gradient}
-          end={{ x: 1, y: 1 }}
-          locations={[0, 0.52, 1]}
-          start={{ x: 0, y: 0 }}
-          style={[styles.memberCard, { borderColor: activeMembershipTier.palette.border }]}
-        >
-          <View style={[styles.memberGlow, { backgroundColor: activeMembershipTier.palette.glow }]} />
-          <LinearGradient colors={["transparent", activeMembershipTier.palette.shine, "transparent"]} end={{ x: 1, y: 0 }} start={{ x: 0, y: 0 }} style={styles.memberSheen} />
-          <Text style={[styles.memberBadge, { backgroundColor: activeMembershipTier.palette.badgeBackground }]}>{activeMembershipTier.label}</Text>
-          <Text style={styles.points}>{membershipStats.points} điểm an tâm</Text>
-          <Text style={styles.memberBody}>Đồng bộ điểm với CRM</Text>
-          <View style={styles.progressTrack}>
-            <LinearGradient colors={activeMembershipTier.palette.gradient} end={{ x: 1, y: 0 }} start={{ x: 0, y: 0 }} style={[styles.progressFill, { width: activeMembershipTier.progress as DimensionValue }]} />
-          </View>
-        </LinearGradient>
+        <MemberCard
+          badge={activeMembershipTier.label}
+          body="Đồng bộ điểm với CRM"
+          palette={activeMembershipTier.palette}
+          points={membershipStats.points}
+          progress={activeMembershipTier.progress as DimensionValue}
+        />
 
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Dược liệu & trà</Text>
@@ -109,16 +101,8 @@ export default function ProductsScreen() {
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.background },
-  headerWrap: { paddingHorizontal: spacing.xl },
-  content: { paddingBottom: spacing.xxl, paddingHorizontal: spacing.xl, paddingTop: spacing.sm },
-  memberCard: { borderRadius: radius.lg, borderWidth: 1, overflow: "hidden", padding: spacing.lg, ...shadows.card },
-  memberGlow: { borderRadius: radius.pill, height: 124, position: "absolute", right: -38, top: -52, width: 124 },
-  memberSheen: { height: 176, left: -58, opacity: 0.82, position: "absolute", top: -28, transform: [{ rotate: "-18deg" }], width: 94 },
-  memberBadge: { ...typography.caption, alignSelf: "flex-start", borderRadius: radius.pill, color: colors.white, overflow: "hidden", paddingHorizontal: spacing.sm, paddingVertical: 5 },
-  points: { ...typography.h2, color: colors.white, marginTop: spacing.md },
-  memberBody: { ...typography.body, color: "rgba(255,255,255,0.9)", marginTop: spacing.xs },
-  progressTrack: { backgroundColor: "rgba(255,255,255,0.25)", borderRadius: radius.pill, height: 6, marginTop: spacing.md, overflow: "hidden" },
-  progressFill: { borderRadius: radius.pill, height: 6 },
+  headerWrap: { paddingHorizontal: spacing.lg },
+  content: { paddingHorizontal: spacing.lg, paddingTop: spacing.sm },
   sectionHeader: { alignItems: "center", flexDirection: "row", justifyContent: "space-between", marginBottom: spacing.lg, marginTop: spacing.lg },
   sectionTitle: { ...typography.h2, color: colors.text, fontSize: 20 },
   sectionCount: { ...typography.caption, color: colors.primary, fontWeight: "800" },

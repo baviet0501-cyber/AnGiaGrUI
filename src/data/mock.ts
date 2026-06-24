@@ -103,7 +103,7 @@ export const membershipTiers: MembershipTier[] = [
 
 export const membershipStats: MembershipStats = {
   points: "1.250",
-  tier: "diamond",
+  tier: "member",
   historyCount: "12",
   verifiedBatches: "08",
   responseTime: "2h"

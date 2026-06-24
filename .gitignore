@@ -16,3 +16,5 @@ yarn-error.log*
 *.mobileprovision
 *.orig
 web-build/
+# Windows reserved device names (e.g. created accidentally by `2>nul` redirections)
+nul

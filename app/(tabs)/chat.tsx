@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { AppButton, Card, Header, Screen } from "@/components";
 import { pushChatbotPreviewNotification } from "@/features/notifications/localNotifications";
 import { colors, spacing, typography } from "@/theme";
 
 export default function ChatScreen() {
+  const tabBarHeight = useBottomTabBarHeight();
   const [isSending, setIsSending] = useState(false);
 
   async function handlePreviewNotification() {
@@ -26,7 +28,7 @@ export default function ChatScreen() {
   }
 
   return (
-    <Screen style={styles.screenContent}>
+    <Screen bottomInset={tabBarHeight} style={styles.screenContent}>
       <Header title="Chat CSKH" showNotification compact />
       <View style={styles.thread}>
         <Card style={styles.botBubble}><Text style={styles.botText}>Xin chào! Tôi có thể hỗ trợ truy xuất sản phẩm hoặc tạo yêu cầu CRM.</Text></Card>

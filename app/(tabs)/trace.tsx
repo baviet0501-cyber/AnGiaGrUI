@@ -1,4 +1,5 @@
 ﻿import { Pressable, StyleSheet, Text, View } from "react-native";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { router } from "expo-router";
 import { ScanQrCode } from "lucide-react-native";
 import { AppButton, Card, Header, Screen } from "@/components";
@@ -6,8 +7,9 @@ import { consultations } from "@/data/mock";
 import { colors, radius, spacing, typography } from "@/theme";
 
 export default function TraceScreen() {
+  const tabBarHeight = useBottomTabBarHeight();
   return (
-    <Screen scroll style={styles.screenContent}>
+    <Screen scroll bottomInset={tabBarHeight} style={styles.screenContent}>
       <Header title="Truy xuất" showNotification compact />
       <Pressable style={styles.scanCard} onPress={() => router.push("/scanner")}>
         <View style={styles.scanIconWrap}>
