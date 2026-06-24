@@ -42,29 +42,9 @@ function AnimatedTabIcon({
     }).start();
   }, [focused, progress]);
 
-  const bubbleSize = progress.interpolate({
-    inputRange: [0, 1],
-    outputRange: [34, 40]
-  });
-
-  const bubbleRadius = progress.interpolate({
-    inputRange: [0, 1],
-    outputRange: [17, 20]
-  });
-
   const translateY = progress.interpolate({
     inputRange: [0, 1],
     outputRange: [0, -1.5]
-  });
-
-  const bubbleScale = progress.interpolate({
-    inputRange: [0, 0.7, 1],
-    outputRange: [1, 1.04, 1.01]
-  });
-
-  const iconScale = progress.interpolate({
-    inputRange: [0, 1],
-    outputRange: [1, 1.03]
   });
 
   const backgroundColor = progress.interpolate({
@@ -78,16 +58,11 @@ function AnimatedTabIcon({
         styles.tabIconBubble,
         {
           backgroundColor,
-          borderRadius: bubbleRadius,
-          height: bubbleSize,
-          transform: [{ translateY }, { scale: bubbleScale }],
-          width: bubbleSize
+          transform: [{ translateY }]
         }
       ]}
     >
-      <Animated.View style={{ transform: [{ scale: iconScale }] }}>
-        <Icon color={color} size={focused ? 18 : 16} strokeWidth={focused ? 2.5 : 2.1} />
-      </Animated.View>
+      <Icon color={color} size={16} strokeWidth={focused ? 2.5 : 2.1} />
     </Animated.View>
   );
 }
@@ -221,7 +196,10 @@ const styles = StyleSheet.create({
   },
   tabIconBubble: {
     alignItems: "center",
-    justifyContent: "center"
+    borderRadius: 17,
+    height: 34,
+    justifyContent: "center",
+    width: 34
   },
   tabLabel: {
     fontSize: 9,

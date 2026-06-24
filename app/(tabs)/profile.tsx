@@ -1,4 +1,5 @@
 ﻿import { Alert, StyleSheet, Text, View } from "react-native";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { router } from "expo-router";
 import { Gift, HeartHandshake, ShieldCheck } from "lucide-react-native";
 import { AppButton, FeatureTile, Header, MetricStrip, Screen, ShowcaseHero } from "@/components";
@@ -7,6 +8,7 @@ import { useAuth } from "@/features/auth";
 import { colors, spacing, typography } from "@/theme";
 
 export default function ProfileScreen() {
+  const tabBarHeight = useBottomTabBarHeight();
   const { customer, logout } = useAuth();
 
   async function handleLogout() {
@@ -20,7 +22,7 @@ export default function ProfileScreen() {
   }
 
   return (
-    <Screen scroll style={styles.screenContent}>
+    <Screen scroll bottomInset={tabBarHeight} style={styles.screenContent}>
       <Header title="Hồ sơ" showNotification compact />
       <ShowcaseHero
         eyebrow={customer?.username ?? "Green Care"}

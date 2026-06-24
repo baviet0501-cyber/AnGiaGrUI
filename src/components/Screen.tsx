@@ -7,10 +7,16 @@ type ScreenProps = PropsWithChildren<{
   scroll?: boolean;
   padded?: boolean;
   style?: StyleProp<ViewStyle>;
+  /**
+   * Extra bottom padding to clear an overlay such as the bottom tab bar.
+   * Only tab screens should pass this via `useBottomTabBarHeight()`,
+   * because that hook throws when used outside a Bottom Tab Navigator.
+   */
+  bottomInset?: number;
 }>;
 
-export function Screen({ children, scroll = false, padded = true, style }: ScreenProps) {
-  const contentStyle = [styles.content, padded && styles.padded, style];
+export function Screen({ children, scroll = false, padded = true, style, bottomInset = 0 }: ScreenProps) {
+  const contentStyle = [styles.content, padded && styles.padded, bottomInset > 0 && { paddingBottom: spacing.xl + bottomInset }, style];
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -22,5 +28,5 @@ export function Screen({ children, scroll = false, padded = true, style }: Scree
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: colors.background },
   content: { flexGrow: 1 },
-  padded: { padding: spacing.xl }
+  padded: { paddingHorizontal: spacing.lg, paddingVertical: spacing.xl }
 });
